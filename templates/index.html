@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Explorer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar, .footer {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+        .card-img-top {
+            height: 300px;
+            object-fit: cover;
+        }
+        .card {
+            border: none;
+            transition: transform .2s; /* Animation */
+        }
+        .card:hover {
+            transform: scale(1.05); /* Scale card on hover */
+        }
+        .card-body {
+            background-color: #ffffff;
+            min-height: 220px;
+        }
+        .footer {
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .container-fluid {
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('home') }}">MovieExplorer</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <form class="d-flex" action="{{ url_for('search') }}" method="POST">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <h1 class="mb-3">Upcoming Movies</h1>
+        {% if movies %}
+        <div class="row">
+            {% for movie in movies %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if movie.poster_path %}
+                    <img class="card-img-top" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+                    {% else %}
+                    <img class="card-img-top" src="https://via.placeholder.com/500x300?text=No+Image" alt="No image available">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ movie.title or "No title available" }}</h5>
+                        <p class="card-text mb-2">Release Date: {{ movie.release_date or "Release date not available" }}</p>
+                        <p class="card-text"><small class="text-muted">Popularity: {{ movie.popularity or "Not available" }}</small></p>
+                        <p class="card-text"><small class="text-muted">Vote Average: {{ movie.vote_average or "Not rated" }} / 10</small></p>
+                        <a href="{{ url_for('movie_details', movie_id=movie.id) }}" class="btn btn-primary mt-auto">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if page > 1 %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('home', page=page-1, region=region) }}">Previous</a></li>
+                {% endif %}
+                {% if page < total_pages %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('home', page=page+1, region=region) }}">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% else %}
+        <p>No upcoming movies to display.</p>
+        {% endif %}
+    </div>
+
+    <div class="footer">
+        <div class="container-fluid">
+            <p>&copy; 2023 MovieExplorer</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

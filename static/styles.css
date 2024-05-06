@@ -1,0 +1,91 @@
+/* styles.css */
+
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set up a nice font */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+}
+
+/* Style the container */
+.movie-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 20px;
+}
+
+/* Style the title */
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+/* Style the movie list */
+.movie-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+}
+
+/* Style each movie item */
+.movie-item {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Add hover effect to movie item */
+.movie-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Style the movie poster */
+.movie-poster {
+    width: 100%;
+    height: auto;
+}
+
+/* Style the movie details */
+.movie-details {
+    padding: 20px;
+}
+
+/* Style the movie title */
+.movie-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+/* Style the movie release date */
+.movie-release {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+/* Style the movie overview */
+.movie-overview {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* Style the movie popularity */
+.movie-popularity {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+/* Style the movie vote average */
+.movie-vote {
+    font-size: 1rem;
+    margin-bottom: 20px;
+}

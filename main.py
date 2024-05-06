@@ -23,6 +23,7 @@ TMDB_URL = "https://api.themoviedb.org/3/"
 
 @app.route('/', methods=['GET', 'POST'])
 @cache.cached(timeout=3600, query_string=True)
+
 def home():
     page = request.args.get('page', 1, type=int)
     region = request.args.get('region', default='GB')
@@ -45,9 +46,36 @@ def home():
     if response.status_code == 200:
         data = response.json()
         if 'results' in data:
-            movies_sorted = sorted(data['results'], key=lambda x: x.get('release_date', ''))
+            movies = data['results']
+
+            # Custom sorting function
+            def sort_by_release_date(movie):
+                release_date = movie.get('release_date')
+                if release_date:
+                    try:
+                        return datetime.strptime(release_date, '%Y-%m-%d')
+                    except ValueError:
+                        # Handle invalid date format
+                        return datetime.min
+                else:
+                    # Movies without release date will be sorted last
+                    return datetime.max
+
+            movies.sort(key=sort_by_release_date)
+
+            # Format release dates in UK format
+            for movie in movies:
+                release_date = movie.get('release_date')
+                if release_date:
+                    try:
+                        date_obj = datetime.strptime(release_date, '%Y-%m-%d')
+                        movie['release_date'] = date_obj.strftime('%d/%m/%Y')
+                    except ValueError:
+                        # Handle invalid date format
+                        pass
+
             total_pages = data['total_pages']
-            return render_template('index.html', movies=movies_sorted, region=region, page=page, total_pages=total_pages)
+            return render_template('index.html', movies=movies, region=region, page=page, total_pages=total_pages)
         else:
             error_message = "No results found."
     else:

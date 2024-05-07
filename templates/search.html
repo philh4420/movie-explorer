@@ -1,69 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>Search Movies</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+    />
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .card-img-top {
-            object-fit: cover;
-            height: 300px;
-        }
-        .container-fluid {
-            padding: 20px;
-        }
-        .card {
-            transition: box-shadow .3s;
-            border: none;
-        }
-        .card:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .card-body {
-            min-height: 180px;
-        }
+      body {
+        background-color: #f8f9fa;
+      }
+      .navbar,
+      .footer {
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .footer {
+        padding: 20px 0;
+        text-align: center;
+        background: #ffffff;
+        margin-top: 40px;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .card-img-top {
+        object-fit: cover;
+        height: 300px;
+      }
+      .container-fluid {
+        padding: 20px;
+      }
+      .card {
+        transition: box-shadow 0.3s;
+        border: none;
+      }
+      .card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .card-body {
+        min-height: 180px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container-fluid mt-3">
-        <h1>Searched Movies</h1>
-        <form action="{{ url_for('search') }}" method="POST" class="mb-3">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search movies..." name="search" required>
-                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
-            </div>
-        </form>
-
-        {% if movies %}
-        <div class="row">
-            {% for movie in movies %}
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card h-100">
-                    {% if movie.poster_path %}
-                    <img class="card-img-top" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
-                    {% else %}
-                    <img class="card-img-top" src="https://via.placeholder.com/500x300?text=No+Image" alt="No image available">
-                    {% endif %}
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ movie.title or "No title available" }}</h5>
-                        <p class="card-text">Release Date: {{ movie.release_date or "Release date not available" }}</p>
-                        <a href="{{ url_for('movie_details', movie_id=movie.id) }}" class="btn btn-primary mt-auto">View Details</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+      <h1>Searched Movies</h1>
+      <form
+        action="{{ url_for('search') }}"
+        method="POST"
+        class="mb-3"
+      >
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search movies..."
+            name="search"
+            required
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="submit"
+            id="button-addon2"
+          >
+            Search
+          </button>
         </div>
-        {% else %}
-        {% if request.method == 'POST' %}
-        <p>No results found for your search.</p>
-        {% endif %}
-        {% endif %}
+      </form>
+
+      {% if movies %}
+      <div class="row">
+        {% for movie in movies %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div class="card h-100">
+            {% if movie.poster_path %}
+            <img
+              class="card-img-top"
+              src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+              alt="{{ movie.title }}"
+            />
+            {% else %}
+            <img
+              class="card-img-top"
+              src="https://via.placeholder.com/500x300?text=No+Image"
+              alt="No image available"
+            />
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">
+                {{ movie.title or "No title available" }}
+              </h5>
+              <p class="card-text">
+                Release Date: {{ movie.release_date or "Release date
+                not available" }}
+              </p>
+              <a
+                href="{{ url_for('movie_details', movie_id=movie.id) }}"
+                class="btn btn-primary mt-auto"
+                >View Details</a
+              >
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %} {% if request.method == 'POST' %}
+      <p>No results found for your search.</p>
+      {% endif %} {% endif %}
+    </div>
+    <div class="footer">
+      <div class="container-fluid">
+        <p>&copy; 2024 MovieExplorer. All rights reserved.</p>
+      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"></script>
-</body>
+  </body>
 </html>

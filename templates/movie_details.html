@@ -11,13 +11,43 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
     />
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
-<link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='favicon/android-chrome-192x192.png') }}">
-<link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='favicon/android-chrome-512x512.png') }}">
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
-<link rel="manifest" href="{{ url_for('static', filename='favicon/site.webmanifest') }}">
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="{{ url_for('static', filename='favicon/android-chrome-192x192.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="{{ url_for('static', filename='favicon/android-chrome-512x512.png') }}"
+    />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon/favicon.ico') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='favicon/site.webmanifest') }}"
+    />
 
     <style>
       body {
@@ -79,7 +109,6 @@
       }
       .facebook {
         background-color: #3b5998;
-
       }
       .instagram {
         background-color: #e1306c;
@@ -172,13 +201,15 @@
         >
           <i class="fab fa-twitter"></i> Twitter
         </a>
+        {% endif %} {% if movie.homepage %}
+        <a
+          href="{{ movie.homepage }}"
+          class="link website"
+          target="_blank"
+        >
+          <i class="fas fa-globe"></i> Website
+        </a>
         {% endif %}
-        {% if movie.homepage %}
-    <a href="{{ movie.homepage }}" class="link website" target="_blank">
-        <i class="fas fa-globe"></i> Website
-    </a>
-{% endif %}
-
       </div>
 
       <h3>Cast</h3>

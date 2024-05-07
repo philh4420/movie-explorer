@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>{{ actor.name }}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .navbar,
+      .footer {
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .img-profile {
+        height: 200px;
+        width: 200px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+      .footer {
+        padding: 20px 0;
+        text-align: center;
+        background: #ffffff;
+        margin-top: 40px;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .container-fluid {
+        padding: 15px;
+      }
+
+      .external-links {
+        display: flex;
+        justify-content: center;
+        padding: 30px;
+        flex-wrap: wrap;
+        background-color: #333;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .external-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        margin: 10px;
+        border-radius: 30px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .external-link i {
+        margin-right: 10px;
+        font-size: 26px;
+      }
+
+      .external-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+      }
+
+      .external-link:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+      }
+
+      .external-link:hover::before {
+        opacity: 1;
+      }
+
+      .imdb {
+        background-color: #e6b91e;
+        color: #333;
+      }
+      .facebook {
+        background-color: #3b5998;
+        color: #333;
+      }
+      .instagram {
+        background-color: #c13584;
+        color: #333;
+      }
+      .twitter {
+        background-color: #1da1f2;
+        color: #333;
+      }
+      .website {
+        background-color: #4caf50;
+        color: #333;
+      }
+      .freebase {
+        background-color: #9e9e9e;
+        color: #333;
+      }
+      .tvrage {
+        background-color: #ff9800;
+        color: #333;
+      }
+
+      .fa {
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a href="{{ url_for('home') }}" class="navbar-brand"
+          >{{ actor.name }}</a
+        >
+      </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          {% if actor.profile_path %}
+          <img
+            src="https://image.tmdb.org/t/p/w300{{ actor.profile_path }}"
+            alt="{{ actor.name }}"
+            class="img-profile"
+          />
+          {% else %}
+          <img
+            src="https://via.placeholder.com/300x300?text=No+Image"
+            alt="No profile image"
+            class="img-profile"
+          />
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <h2>{{ actor.name }}</h2>
+          <p>
+            <strong>Gender:</strong> {{ "Male" if actor.gender == 2
+            else "Female" if actor.gender == 1 else "Not specified" }}
+          </p>
+          <p>
+            <strong>Birthday:</strong> {{ actor.birthday or 'N/A' }}
+          </p>
+          <p>
+            <strong>Deathday:</strong> {{ actor.deathday or 'N/A' }}
+          </p>
+          <p>
+            <strong>Place of Birth:</strong> {{ actor.place_of_birth
+            or 'N/A' }}
+          </p>
+          <p>
+            <strong>Biography:</strong> {{ actor.biography or 'No
+            biography available.' }}
+          </p>
+          <p>
+            <strong>Also known as:</strong> {{ actor.also_known_as |
+            join(", ") or 'N/A' }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Social Media Links -->
+      <div class="row">
+        <div class="col-12">
+          <h3>External Links</h3>
+          <div class="external-links">
+            <!-- Wrapper for better alignment and spacing -->
+            {% if actor.external_ids.imdb_id %}
+            <a
+              href="https://www.imdb.com/name/{{ actor.external_ids.imdb_id }}"
+              class="external-link imdb"
+              target="_blank"
+            >
+              <i class="fab fa-imdb"></i> IMDb
+            </a>
+            {% endif %} {% if actor.external_ids.facebook_id %}
+            <a
+              href="https://www.facebook.com/{{ actor.external_ids.facebook_id }}"
+              class="external-link facebook"
+              target="_blank"
+            >
+              <i class="fab fa-facebook"></i> Facebook
+            </a>
+            {% endif %} {% if actor.external_ids.instagram_id %}
+            <a
+              href="https://www.instagram.com/{{ actor.external_ids.instagram_id }}"
+              class="external-link instagram"
+              target="_blank"
+            >
+              <i class="fab fa-instagram"></i> Instagram
+            </a>
+            {% endif %} {% if actor.external_ids.twitter_id %}
+            <a
+              href="https://twitter.com/{{ actor.external_ids.twitter_id }}"
+              class="external-link twitter"
+              target="_blank"
+            >
+              <i class="fa-brands fa-x-twitter"></i> Twitter
+            </a>
+            {% endif %} {% if actor.homepage %}
+            <a
+              href="{{ actor.homepage }}"
+              class="external-link website"
+              target="_blank"
+            >
+              <i class="fas fa-globe"></i> Website
+            </a>
+
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <h3>Filmography</h3>
+      <div class="row">
+        {% if actor.movie_credits %} {% for movie in
+        actor.movie_credits.cast %}
+        <div class="col-md-3 mb-3">
+          <div class="card">
+            {% if movie.poster_path %}
+            <img
+              src="https://image.tmdb.org/t/p/w200{{ movie.poster_path }}"
+              class="card-img-top"
+              alt="{{ movie.title }}"
+            />
+            {% else %}
+            <img
+              src="https://via.placeholder.com/200x300?text=No+Image"
+              class="card-img-top"
+              alt="No image available"
+            />
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ movie.title }}</h5>
+              <p class="card-text">
+                <small class="text-muted"
+                  >{{ movie.release_date | default('Unknown release
+                  date', true) }}</small
+                >
+              </p>
+              <a
+                href="{{ url_for('movie_details', movie_id=movie.id) }}"
+                class="btn btn-info"
+                >View Details</a
+              >
+            </div>
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <p>No filmography available.</p>
+        {% endif %}
+      </div>
+
+      <a
+        href="{{ url_for('movie_details', movie_id=movie_id) }}"
+        class="btn btn-primary"
+        >Back to Movie Details</a
+      >
+    </div>
+
+    <div class="footer">
+      <div class="container-fluid">
+        <p>&copy; 2023 MovieExplorer. All rights reserved.</p>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/3dfa0f3609.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

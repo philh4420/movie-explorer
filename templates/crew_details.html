@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>{{ crew.name }}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .navbar,
+      .footer {
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .img-profile {
+        height: 200px;
+        width: 200px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+      .footer {
+        padding: 20px 0;
+        text-align: center;
+        background: #ffffff;
+        margin-top: 40px;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .container-fluid {
+        padding: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a href="{{ url_for('home') }}" class="navbar-brand"
+          >{{ crew.name }}</a
+        >
+      </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          {% if crew.profile_path %}
+          <img
+            src="https://image.tmdb.org/t/p/w300{{ crew.profile_path }}"
+            alt="{{ crew.name }}"
+            class="img-profile"
+          />
+          {% else %}
+          <img
+            src="https://via.placeholder.com/300x300?text=No+Image"
+            alt="No profile image"
+            class="img-profile"
+          />
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <h2>{{ crew.name }}</h2>
+          <p>
+            <strong>Department:</strong> {{ crew.department or 'N/A'
+            }}
+          </p>
+          <p><strong>Job:</strong> {{ crew.job or 'N/A' }}</p>
+          <p>
+            <strong>Biography:</strong> {{ crew.biography or 'No
+            biography available.' }}
+          </p>
+        </div>
+      </div>
+
+      <h3>Filmography</h3>
+      <div class="row">
+        {% if crew.movie_credits %} {% for movie in
+        crew.movie_credits.crew %}
+        <div class="col-md-3 mb-3">
+          <div class="card">
+            {% if movie.poster_path %}
+            <img
+              src="https://image.tmdb.org/t/p/w200{{ movie.poster_path }}"
+              class="card-img-top"
+              alt="{{ movie.title }}"
+            />
+            {% else %}
+            <img
+              src="https://via.placeholder.com/200x300?text=No+Image"
+              class="card-img-top"
+              alt="No image available"
+            />
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ movie.title }}</h5>
+              <p class="card-text">
+                <small class="text-muted"
+                  >{{ movie.release_date | default('Unknown release
+                  date', true) }}</small
+                >
+              </p>
+              <a
+                href="{{ url_for('movie_details', movie_id=movie.id) }}"
+                class="btn btn-info"
+                >View Details</a
+              >
+            </div>
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <p>No filmography available.</p>
+        {% endif %}
+      </div>
+
+      <a
+        href="{{ url_for('movie_details', movie_id=movie_id) }}"
+        class="btn btn-primary"
+        >Back to Movie Details</a
+      >
+    </div>
+
+    <div class="footer">
+      <div class="container-fluid">
+        <p>&copy; 2023 MovieExplorer. All rights reserved.</p>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

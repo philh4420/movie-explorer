@@ -1,132 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>{{ movie.title }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+    />
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .navbar, .footer {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,.1);
-        }
-        .img-fluid {
-            max-height: 450px;
-            object-fit: cover;
-        }
-        .rounded-circle {
-            height: 100px;
-            width: 100px;
-            object-fit: cover;
-        }
-        .embed-responsive-item {
-            height: 315px;
-        }
-        .footer {
-            padding: 20px 0;
-            text-align: center;
-            background: #ffffff;
-            margin-top: 40px;
-            box-shadow: 0 -2px 4px rgba(0,0,0,.1);
-        }
-        .container-fluid {
-            padding: 15px;
-        }
-        .crew-member-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .crew-details {
-            flex-grow: 1;
-        }
+      body {
+        background-color: #f8f9fa;
+      }
+      .navbar,
+      .footer {
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .img-fluid {
+        max-height: 450px;
+        object-fit: cover;
+      }
+      .rounded-circle {
+        height: 100px;
+        width: 100px;
+        object-fit: cover;
+      }
+      .embed-responsive-item {
+        height: 315px;
+      }
+      .footer {
+        padding: 20px 0;
+        text-align: center;
+        background: #ffffff;
+        margin-top: 40px;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .container-fluid {
+        padding: 15px;
+      }
+      .crew-member-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .crew-details {
+        flex-grow: 1;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a href="{{ url_for('home') }}" class="navbar-brand mb-0 h1">{{ movie.title }}</a>
-        </div>
+      <div class="container-fluid">
+        <a href="{{ url_for('home') }}" class="navbar-brand mb-0 h1"
+          >{{ movie.title }}</a
+        >
+      </div>
     </nav>
 
     <div class="container-fluid mt-4">
-        <div class="row">
-            <div class="col-lg-4">
-                {% if movie.poster_path %}
-                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="img-fluid" alt="{{ movie.title }}">
-                {% endif %}
-            </div>
-            <div class="col-lg-8">
-                <h2>{{ movie.title }}</h2>
-                <p><strong>Release Date:</strong> {{ movie.release_date or 'N/A' }}</p>
-                <p><strong>Runtime:</strong> {{ movie.runtime }} minutes</p>
-                <p><strong>Rating:</strong> {{ movie.vote_average }}/10 from {{ movie.vote_count }} votes</p>
-                <p><strong>Genres:</strong>
-                    {% for genre in movie.genres %}
-                        {{ genre.name }}{% if not loop.last %}, {% endif %}
-                    {% endfor %}
-                </p>
-                <h3>Overview</h3>
-                <p>{{ movie.overview }}</p>
-            </div>
+      <div class="row">
+        <div class="col-lg-4">
+          {% if movie.poster_path %}
+          <img
+            src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+            class="img-fluid"
+            alt="{{ movie.title }}"
+          />
+          {% endif %}
         </div>
-
-        <h3>Cast</h3>
-        <div class="row">
-            {% for cast_member in movie.credits.cast %}
-            <div class="col-lg-3 col-md-4 col-sm-6 text-center mb-3">
-                <img src="https://image.tmdb.org/t/p/w200{{ cast_member.profile_path }}" class="img-fluid rounded-circle mb-2" alt="{{ cast_member.name }}">
-                <p>{{ cast_member.name }} as {{ cast_member.character }}</p>
-            </div>
-            {% endfor %}
+        <div class="col-lg-8">
+          <h2>{{ movie.title }}</h2>
+          <p>
+            <strong>Release Date:</strong> {{ movie.release_date or
+            'N/A' }}
+          </p>
+          <p><strong>Runtime:</strong> {{ movie.runtime }} minutes</p>
+          <p>
+            <strong>Rating:</strong> {{ movie.vote_average }}/10 from
+            {{ movie.vote_count }} votes
+          </p>
+          <p>
+            <strong>Genres:</strong>
+            {% for genre in movie.genres %} {{ genre.name }}{% if not
+            loop.last %}, {% endif %} {% endfor %}
+          </p>
+          <h3>Overview</h3>
+          <p>{{ movie.overview }}</p>
         </div>
+      </div>
 
-        <h3>Crew</h3>
-        <div class="row">
-            {% for crew_member in movie.credits.crew %}
-            <div class="col-lg-4 col-md-6 mb-3">
-                <div class="crew-member-info">
-                    <img src="https://image.tmdb.org/t/p/w200{{ crew_member.profile_path }}" class="img-fluid rounded-circle" alt="{{ crew_member.name }}">
-                    <div class="crew-details">
-                        <p><strong>{{ crew_member.job }}:</strong> {{ crew_member.name }}</p>
-                        <p>{{ crew_member.department }}</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+      <h3>Cast</h3>
+      <div class="row">
+        {% for cast_member in movie.credits.cast %}
+        <div class="col-lg-3 col-md-4 col-sm-6 text-center mb-3">
+          <img
+            src="https://image.tmdb.org/t/p/w200{{ cast_member.profile_path }}"
+            class="img-fluid rounded-circle mb-2"
+            alt="{{ cast_member.name }}"
+          />
+          <p>{{ cast_member.name }} as {{ cast_member.character }}</p>
+          <!-- Assuming 'movie' is the context variable containing movie details including movie.id -->
+          <a
+            href="{{ url_for('actor_details', actor_id=cast_member.id, movie_id=movie.id) }}"
+            class="btn btn-info"
+            >View Actor</a
+          >
         </div>
+        {% endfor %}
+      </div>
 
-        <h3>Trailers</h3>
-        <div class="row">
-            {% for video in movie.videos.results %}
-            <div class="col-lg-6 col-md-12 mb-3">
-                <iframe class="embed-responsive-item w-100" src="https://www.youtube.com/embed/{{ video.key }}" allowfullscreen></iframe>
+      <h3>Crew</h3>
+      <div class="row">
+        {% for crew_member in movie.credits.crew %}
+        <div class="col-lg-4 col-md-6 mb-3">
+          <div class="crew-member-info">
+            <img
+              src="https://image.tmdb.org/t/p/w200{{ crew_member.profile_path }}"
+              class="img-fluid rounded-circle"
+              alt="{{ crew_member.name }}"
+            />
+            <div class="crew-details">
+              <p>
+                <strong>{{ crew_member.job }}:</strong> {{
+                crew_member.name }}
+              </p>
+              <p>{{ crew_member.department }}</p>
+              {#
+              <a
+                href="{{ url_for('crew_details', crew_id=crew_member.id) }}"
+                class="btn btn-info"
+                >View Crew</a
+              >
+              #}
             </div>
-            {% endfor %}
+          </div>
         </div>
+        {% endfor %}
+      </div>
 
-        <h3>Reviews</h3>
-        <div class="row">
-            {% for review in movie.reviews.results %}
-            <div class="col-md-12 mb-3">
-                <h5>{{ review.author }}</h5>
-                <p>{{ review.content }}</p>
-            </div>
-            {% endfor %}
+      <h3>Trailers</h3>
+      <div class="row">
+        {% for video in movie.videos.results %}
+        <div class="col-lg-6 col-md-12 mb-3">
+          <iframe
+            class="embed-responsive-item w-100"
+            src="https://www.youtube.com/embed/{{ video.key }}"
+            allowfullscreen
+          ></iframe>
         </div>
+        {% endfor %}
+      </div>
 
-        <a href="{{ url_for('home') }}" class="btn btn-primary">Back to Home</a>
+      <h3>Reviews</h3>
+      <div class="row">
+        {% for review in movie.reviews.results %}
+        <div class="col-md-12 mb-3">
+          <h5>{{ review.author }}</h5>
+          <p>{{ review.content }}</p>
+        </div>
+        {% endfor %}
+      </div>
+
+      <a href="{{ url_for('home') }}" class="btn btn-primary"
+        >Back to Home</a
+      >
     </div>
 
     <div class="footer">
-        <div class="container-fluid">
-            <p>&copy; 2023 MovieExplorer. All rights reserved.</p>
-        </div>
+      <div class="container-fluid">
+        <p>&copy; 2023 MovieExplorer. All rights reserved.</p>
+      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>

@@ -87,9 +87,12 @@ def home():
     return render_template("index.html", error=error_message, region=region, page=page)
 
 
-@app.route("/movie/<int:movie_id>")
+@app.route("/movie_details/<int:movie_id>")
 def movie_details(movie_id):
-    params = {"api_key": API_KEY, "append_to_response": "videos,credits,reviews"}
+    params = {
+        "api_key": API_KEY,
+        "append_to_response": "credits,videos,reviews,external_ids",  # Include external_ids for links
+    }
     response = requests.get(f"{TMDB_URL}movie/{movie_id}", params=params)
     if response.status_code != 200:
         return render_template("error.html", message="Failed to fetch movie details.")

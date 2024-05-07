@@ -11,6 +11,14 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
     />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='favicon/android-chrome-192x192.png') }}">
+<link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='favicon/android-chrome-512x512.png') }}">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+<link rel="manifest" href="{{ url_for('static', filename='favicon/site.webmanifest') }}">
+
     <style>
       body {
         background-color: #f8f9fa;
@@ -42,6 +50,46 @@
       .container-fluid {
         padding: 15px;
       }
+      .external-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Align links in the center */
+        padding: 20px 0;
+        gap: 15px; /* Space between each link */
+        font-size: 24px;
+      }
+
+      .link {
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: #fff; /* White text color */
+        background-color: #555; /* Default background color */
+        text-decoration: none; /* No underline */
+        transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+      }
+
+      .link:hover {
+        background-color: #333; /* Darken background on hover */
+        color: #fff;
+      }
+
+      .imdb {
+        background-color: #f5c518;
+        color: #333;
+      }
+      .facebook {
+        background-color: #3b5998;
+
+      }
+      .instagram {
+        background-color: #e1306c;
+        color: #333;
+      }
+      .twitter {
+        background-color: #1da1f2;
+        color: #333;
+      }
+
       .crew-member-info {
         display: flex;
         align-items: center;
@@ -91,6 +139,46 @@
           <h3>Overview</h3>
           <p>{{ movie.overview }}</p>
         </div>
+      </div>
+
+      <!-- External Links Section -->
+      <h3>External Links</h3>
+      <div class="external-links">
+        {% if movie.external_ids.imdb_id %}
+        <a
+          href="https://www.imdb.com/title/{{ movie.external_ids.imdb_id }}"
+          class="link imdb"
+        >
+          <i class="fab fa-imdb"></i> IMDb
+        </a>
+        {% endif %} {% if movie.external_ids.facebook_id %}
+        <a
+          href="https://www.facebook.com/{{ movie.external_ids.facebook_id }}"
+          class="link facebook"
+        >
+          <i class="fab fa-facebook-square"></i> Facebook
+        </a>
+        {% endif %} {% if movie.external_ids.instagram_id %}
+        <a
+          href="https://www.instagram.com/{{ movie.external_ids.instagram_id }}"
+          class="link instagram"
+        >
+          <i class="fab fa-instagram"></i> Instagram
+        </a>
+        {% endif %} {% if movie.external_ids.twitter_id %}
+        <a
+          href="https://twitter.com/{{ movie.external_ids.twitter_id }}"
+          class="link twitter"
+        >
+          <i class="fab fa-twitter"></i> Twitter
+        </a>
+        {% endif %}
+        {% if movie.homepage %}
+    <a href="{{ movie.homepage }}" class="link website" target="_blank">
+        <i class="fas fa-globe"></i> Website
+    </a>
+{% endif %}
+
       </div>
 
       <h3>Cast</h3>
@@ -177,5 +265,9 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/3dfa0f3609.js"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

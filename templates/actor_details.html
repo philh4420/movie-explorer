@@ -11,6 +11,14 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
     />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='favicon/android-chrome-192x192.png') }}">
+<link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='favicon/android-chrome-512x512.png') }}">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+<link rel="manifest" href="{{ url_for('static', filename='favicon/site.webmanifest') }}">
+
     <style>
       body {
         background-color: #f8f9fa;
@@ -39,60 +47,29 @@
 
       .external-links {
         display: flex;
-        justify-content: center;
-        padding: 30px;
         flex-wrap: wrap;
-        background-color: #333;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        justify-content: center; /* Align links in the center */
+        padding: 20px 0;
+        gap: 15px; /* Space between each link */
+        font-size: 24px;
       }
 
-      .external-link {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+      .link {
         padding: 10px 20px;
-        margin: 10px;
-        border-radius: 30px;
+        border-radius: 5px;
+        color: #fff; /* White text color */
+        background-color: #555; /* Default background color */
+        text-decoration: none; /* No underline */
+        transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+      }
+
+      .link:hover {
+        background-color: #333; /* Darken background on hover */
         color: #fff;
-        font-size: 16px;
-        font-weight: 500;
-        text-decoration: none;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .external-link i {
-        margin-right: 10px;
-        font-size: 26px;
-      }
-
-      .external-link::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.2);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: 1;
-      }
-
-      .external-link:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-      }
-
-      .external-link:hover::before {
-        opacity: 1;
       }
 
       .imdb {
-        background-color: #e6b91e;
+        background-color: #f5c518;
         color: #333;
       }
       .facebook {
@@ -100,27 +77,11 @@
         color: #333;
       }
       .instagram {
-        background-color: #c13584;
+        background-color: #e1306c;
         color: #333;
       }
       .twitter {
         background-color: #1da1f2;
-        color: #333;
-      }
-      .website {
-        background-color: #4caf50;
-        color: #333;
-      }
-      .freebase {
-        background-color: #9e9e9e;
-        color: #333;
-      }
-      .tvrage {
-        background-color: #ff9800;
-        color: #333;
-      }
-
-      .fa {
         color: #333;
       }
     </style>
@@ -178,57 +139,37 @@
         </div>
       </div>
 
-      <!-- Social Media Links -->
-      <div class="row">
-        <div class="col-12">
-          <h3>External Links</h3>
-          <div class="external-links">
-            <!-- Wrapper for better alignment and spacing -->
-            {% if actor.external_ids.imdb_id %}
-            <a
-              href="https://www.imdb.com/name/{{ actor.external_ids.imdb_id }}"
-              class="external-link imdb"
-              target="_blank"
-            >
-              <i class="fab fa-imdb"></i> IMDb
-            </a>
-            {% endif %} {% if actor.external_ids.facebook_id %}
-            <a
-              href="https://www.facebook.com/{{ actor.external_ids.facebook_id }}"
-              class="external-link facebook"
-              target="_blank"
-            >
-              <i class="fab fa-facebook"></i> Facebook
-            </a>
-            {% endif %} {% if actor.external_ids.instagram_id %}
-            <a
-              href="https://www.instagram.com/{{ actor.external_ids.instagram_id }}"
-              class="external-link instagram"
-              target="_blank"
-            >
-              <i class="fab fa-instagram"></i> Instagram
-            </a>
-            {% endif %} {% if actor.external_ids.twitter_id %}
-            <a
-              href="https://twitter.com/{{ actor.external_ids.twitter_id }}"
-              class="external-link twitter"
-              target="_blank"
-            >
-              <i class="fa-brands fa-x-twitter"></i> Twitter
-            </a>
-            {% endif %} {% if actor.homepage %}
-            <a
-              href="{{ actor.homepage }}"
-              class="external-link website"
-              target="_blank"
-            >
-              <i class="fas fa-globe"></i> Website
-            </a>
 
-            {% endif %}
-          </div>
-        </div>
-      </div>
+      <!-- External Links Section -->
+<h3>External Links</h3>
+<div class="external-links">
+    {% if actor.external_ids.imdb_id %}
+    <a href="https://www.imdb.com/name/{{ actor.external_ids.imdb_id }}" class="link imdb">
+        <i class="fab fa-imdb"></i> IMDb
+    </a>
+    {% endif %}
+    {% if actor.external_ids.facebook_id %}
+    <a href="https://www.facebook.com/{{ actor.external_ids.facebook_id }}" class="link facebook">
+        <i class="fab fa-facebook-square"></i> Facebook
+    </a>
+    {% endif %}
+    {% if actor.external_ids.instagram_id %}
+    <a href="https://www.instagram.com/{{ actor.external_ids.instagram_id }}" class="link instagram">
+        <i class="fab fa-instagram"></i> Instagram
+    </a>
+    {% endif %}
+    {% if actor.external_ids.twitter_id %}
+    <a href="https://twitter.com/{{ actor.external_ids.twitter_id }}" class="link twitter">
+        <i class="fab fa-twitter"></i> Twitter
+    </a>
+    {% endif %}
+    {% if actor.homepage %}
+    <a href="{{ actor.homepage }}" class="link website" target="_blank">
+        <i class="fas fa-globe"></i> Website
+    </a>
+    {% endif %}
+</div>
+
 
       <h3>Filmography</h3>
       <div class="row">

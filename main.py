@@ -29,7 +29,7 @@ def home():
     page = request.args.get("page", 1, type=int)
     region = request.args.get("region", default="GB")
     today_date = datetime.now()
-    two_years_later = today_date + timedelta(days=730)
+    two_years_later = today_date + timedelta(days=1460)
 
     date_today_str = today_date.strftime("%Y-%m-%d")
     date_two_years_str = two_years_later.strftime("%Y-%m-%d")
@@ -133,7 +133,7 @@ def actor_details(actor_id, movie_id):
 def crew_details(crew_id, movie_id):
     params = {
         "api_key": API_KEY,
-        "append_to_response": "movie_credits",  # Ensure movie credits are included
+        "append_to_response": "movie_credits,external_ids",  # Ensure movie credits are included
     }
     response = requests.get(f"{TMDB_URL}person/{crew_id}", params=params)
     if response.status_code == 200:

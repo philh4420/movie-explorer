@@ -12,11 +12,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
     />
     <link
-      rel="stylesheet"
-      href="https://kit.fontawesome.com/3dfa0f3609.css"
-      crossorigin="anonymous"
-    />
-    <link
       rel="apple-touch-icon"
       sizes="180x180"
       href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}"
@@ -78,27 +73,39 @@
         font-size: 14px;
         color: #666;
       }
-      .external-links a {
-        padding: 12px 18px;
+      .external-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        font-size: 24px;
+      }
+      .link {
+        padding: 10px 20px;
         border-radius: 5px;
-        color: #fff;
-        background-color: #777;
-        transition: all 0.3s ease;
-      }
-      .external-links a:hover {
         background-color: #555;
+        color: #fff;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
       }
-      .external-links .imdb {
+      .link:hover {
+        background-color: #333;
+        color: #fff;
+      }
+      .imdb {
         background-color: #f5c518;
+        color: #333;
       }
-      .external-links .facebook {
+      .facebook {
         background-color: #3b5998;
       }
-      .external-links .instagram {
+      .instagram {
         background-color: #e1306c;
+        color: #333;
       }
-      .external-links .twitter {
+      .twitter {
         background-color: #1da1f2;
+        color: #333;
       }
       .crew-member-info,
       .actor-member-info {
@@ -106,6 +113,10 @@
         background: #fff;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      iframe {
+        height: 500px
       }
     </style>
   </head>
@@ -158,7 +169,38 @@
 
       <h3>External Links</h3>
       <div class="external-links">
-        <!-- External links with icons -->
+        {% if movie.external_ids.imdb_id %}
+        <a
+          href="https://www.imdb.com/title/{{ movie.external_ids.imdb_id }}"
+          class="link imdb"
+          ><i class="fab fa-imdb"></i> IMDb</a
+        >
+        {% endif %} {% if movie.external_ids.facebook_id %}
+        <a
+          href="https://www.facebook.com/{{ movie.external_ids.facebook_id }}"
+          class="link facebook"
+          ><i class="fab fa-facebook-square"></i> Facebook</a
+        >
+        {% endif %} {% if movie.external_ids.instagram_id %}
+        <a
+          href="https://www.instagram.com/{{ movie.external_ids.instagram_id }}"
+          class="link instagram"
+          ><i class="fab fa-instagram"></i> Instagram</a
+        >
+        {% endif %} {% if movie.external_ids.twitter_id %}
+        <a
+          href="https://twitter.com/{{ movie.external_ids.twitter_id }}"
+          class="link twitter"
+          ><i class="fab fa-twitter"></i>  Twitter</a
+        >
+        {% endif %} {% if movie.homepage %}
+        <a
+          href="{{ movie.homepage }}"
+          class="link website"
+          target="_blank"
+          ><i class="fas fa-globe"></i>  Website</a
+        >
+        {% endif %}
       </div>
 
       <h3>Cast</h3>
@@ -247,10 +289,11 @@
         {% for video in movie.videos.results %}
         <div class="col-lg-6 col-md-12 mb-3">
           <iframe
-            class="embed-responsive-item w-100"
-            src="https://www.youtube.com/embed/{{ video.key }}"
-            allowfullscreen
-          ></iframe>
+    class="embed-responsive-item w-100"
+    src="https://www.youtube.com/embed/{{ video.key }}"
+    allowfullscreen
+></iframe>
+
         </div>
         {% endfor %}
       </div>

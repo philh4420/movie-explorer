@@ -44,6 +44,40 @@
       .container-fluid {
         padding: 15px;
       }
+      .external-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        font-size: 24px;
+      }
+      .link {
+        padding: 10px 20px;
+        border-radius: 5px;
+        background-color: #555;
+        color: #fff;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+      .link:hover {
+        background-color: #333;
+        color: #fff;
+      }
+      .imdb {
+        background-color: #f5c518;
+        color: #333;
+      }
+      .facebook {
+        background-color: #3b5998;
+      }
+      .instagram {
+        background-color: #e1306c;
+        color: #333;
+      }
+      .twitter {
+        background-color: #1da1f2;
+        color: #333;
+      }
       .card {
         transition: box-shadow 0.3s;
         border: none;
@@ -94,6 +128,47 @@
             biography available.' }}
           </p>
         </div>
+      </div>
+
+      <h3>External Links</h3>
+      <div class="external-links">
+        {% if crew.external_ids.imdb_id %}
+        <a
+          href="https://www.imdb.com/name/{{ crew.external_ids.imdb_id }}"
+          class="link imdb"
+        >
+          <i class="fab fa-imdb"></i> IMDb
+        </a>
+        {% endif %} {% if crew.external_ids.facebook_id %}
+        <a
+          href="https://www.facebook.com/{{ crew.external_ids.facebook_id }}"
+          class="link facebook"
+        >
+          <i class="fab fa-facebook"></i> Facebook
+        </a>
+        {% endif %} {% if crew.external_ids.instagram_id %}
+        <a
+          href="https://www.instagram.com/{{ crew.external_ids.instagram_id }}"
+          class="link instagram"
+        >
+          <i class="fab fa-instagram"></i> Instagram
+        </a>
+        {% endif %} {% if crew.external_ids.twitter_id %}
+        <a
+          href="https://twitter.com/{{ crew.external_ids.twitter_id }}"
+          class="link twitter"
+        >
+          <i class="fab fa-twitter"></i> Twitter
+        </a>
+        {% endif %} {% if crew.homepage %}
+        <a
+          href="{{ crew.homepage }}"
+          class="link website"
+          target="_blank"
+        >
+          <i class="fas fa-globe"></i> Website
+        </a>
+        {% endif %}
       </div>
 
       <h3>Filmography</h3>

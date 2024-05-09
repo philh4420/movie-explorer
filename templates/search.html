@@ -11,9 +11,54 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://kit.fontawesome.com/3dfa0f3609.css"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="{{ url_for('static', filename='favicon/android-chrome-192x192.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="{{ url_for('static', filename='favicon/android-chrome-512x512.png') }}"
+    />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon/favicon.ico') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='favicon/site.webmanifest') }}"
+    />
     <style>
       body {
-        background-color: #f8f9fa;
+        background-color: #f4f4f4;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        color: #333;
+        line-height: 1.6;
       }
       .navbar,
       .footer {
@@ -47,6 +92,14 @@
     </style>
   </head>
   <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a href="{{ url_for('home') }}" class="navbar-brand mb-0 h1"
+          >Search Movies</a
+        >
+      </div>
+    </nav>
+
     <div class="container-fluid mt-3">
       <h1>Searched Movies</h1>
       <form
@@ -112,12 +165,13 @@
       <p>No results found for your search.</p>
       {% endif %} {% endif %}
     </div>
+
     <div class="footer">
       <div class="container-fluid">
         <p>&copy; 2024 MovieExplorer. All rights reserved.</p>
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

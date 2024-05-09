@@ -51,7 +51,10 @@
 
     <style>
       body {
-        background-color: #f8f9fa;
+        background-color: #f4f4f4;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        color: #333;
+        line-height: 1.6;
       }
       .navbar,
       .footer {
@@ -67,52 +70,47 @@
       .footer {
         padding: 20px 0;
         text-align: center;
-        background: #ffffff;
         margin-top: 40px;
+        background: #ffffff;
         box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
       }
-      .container-fluid {
-        padding: 15px;
-      }
-
       .external-links {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center; /* Align links in the center */
-        padding: 20px 0;
-        gap: 15px; /* Space between each link */
+        justify-content: center;
+        gap: 15px;
         font-size: 24px;
       }
-
       .link {
         padding: 10px 20px;
         border-radius: 5px;
-        color: #fff; /* White text color */
-        background-color: #555; /* Default background color */
-        text-decoration: none; /* No underline */
-        transition: background-color 0.3s ease; /* Smooth transition for hover effects */
-      }
-
-      .link:hover {
-        background-color: #333; /* Darken background on hover */
+        background-color: #555;
         color: #fff;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
       }
-
+      .link:hover {
+        background-color: #333;
+      }
       .imdb {
         background-color: #f5c518;
-        color: #333;
       }
       .facebook {
         background-color: #3b5998;
-        color: #333;
       }
       .instagram {
         background-color: #e1306c;
-        color: #333;
       }
       .twitter {
         background-color: #1da1f2;
-        color: #333;
+      }
+      .card {
+        transition: transform 0.3s ease;
+        border: none;
+      }
+      .card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
     </style>
   </head>
@@ -176,38 +174,33 @@
         <a
           href="https://www.imdb.com/name/{{ actor.external_ids.imdb_id }}"
           class="link imdb"
+          ><i class="fab fa-imdb"></i> IMDb</a
         >
-          <i class="fab fa-imdb"></i> IMDb
-        </a>
         {% endif %} {% if actor.external_ids.facebook_id %}
         <a
           href="https://www.facebook.com/{{ actor.external_ids.facebook_id }}"
           class="link facebook"
+          ><i class="fab fa-facebook-square"></i> Facebook</a
         >
-          <i class="fab fa-facebook-square"></i> Facebook
-        </a>
         {% endif %} {% if actor.external_ids.instagram_id %}
         <a
           href="https://www.instagram.com/{{ actor.external_ids.instagram_id }}"
           class="link instagram"
+          ><i class="fab fa-instagram"></i> Instagram</a
         >
-          <i class="fab fa-instagram"></i> Instagram
-        </a>
         {% endif %} {% if actor.external_ids.twitter_id %}
         <a
           href="https://twitter.com/{{ actor.external_ids.twitter_id }}"
           class="link twitter"
+          ><i class="fab fa-twitter"></i> Twitter</a
         >
-          <i class="fab fa-twitter"></i> Twitter
-        </a>
         {% endif %} {% if actor.homepage %}
         <a
           href="{{ actor.homepage }}"
           class="link website"
           target="_blank"
+          ><i class="fas fa-globe"></i> Website</a
         >
-          <i class="fas fa-globe"></i> Website
-        </a>
         {% endif %}
       </div>
 

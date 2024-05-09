@@ -12,6 +12,11 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
     />
     <link
+      rel="stylesheet"
+      href="https://kit.fontawesome.com/3dfa0f3609.css"
+      crossorigin="anonymous"
+    />
+    <link
       rel="apple-touch-icon"
       sizes="180x180"
       href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}"
@@ -48,84 +53,59 @@
       rel="manifest"
       href="{{ url_for('static', filename='favicon/site.webmanifest') }}"
     />
-
     <style>
       body {
-        background-color: #f8f9fa;
+        background-color: #f4f4f4;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        color: #333;
+        line-height: 1.6;
       }
       .navbar,
       .footer {
         background-color: #ffffff;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
       }
-      .img-fluid {
-        max-height: 450px;
-        object-fit: cover;
-      }
+      .img-fluid,
       .rounded-circle {
-        height: 100px;
-        width: 100px;
-        object-fit: cover;
-      }
-      .embed-responsive-item {
-        height: 315px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
       .footer {
         padding: 20px 0;
         text-align: center;
         background: #ffffff;
-        margin-top: 40px;
-        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+        font-size: 14px;
+        color: #666;
       }
-      .container-fluid {
-        padding: 15px;
-      }
-      .external-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center; /* Align links in the center */
-        padding: 20px 0;
-        gap: 15px; /* Space between each link */
-        font-size: 24px;
-      }
-
-      .link {
-        padding: 10px 20px;
+      .external-links a {
+        padding: 12px 18px;
         border-radius: 5px;
-        color: #fff; /* White text color */
-        background-color: #555; /* Default background color */
-        text-decoration: none; /* No underline */
-        transition: background-color 0.3s ease; /* Smooth transition for hover effects */
-      }
-
-      .link:hover {
-        background-color: #333; /* Darken background on hover */
         color: #fff;
+        background-color: #777;
+        transition: all 0.3s ease;
       }
-
-      .imdb {
+      .external-links a:hover {
+        background-color: #555;
+      }
+      .external-links .imdb {
         background-color: #f5c518;
-        color: #333;
       }
-      .facebook {
+      .external-links .facebook {
         background-color: #3b5998;
       }
-      .instagram {
+      .external-links .instagram {
         background-color: #e1306c;
-        color: #333;
       }
-      .twitter {
+      .external-links .twitter {
         background-color: #1da1f2;
-        color: #333;
       }
-
-      .crew-member-info {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-      }
-      .crew-details {
-        flex-grow: 1;
+      .crew-member-info,
+      .actor-member-info {
+        padding: 10px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
     </style>
   </head>
@@ -143,9 +123,15 @@
         <div class="col-lg-4">
           {% if movie.poster_path %}
           <img
-            src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
-            class="img-fluid"
+            class="card-img-top"
+            src="https://image.tmdb.org/t/p/w300{{ movie.poster_path }}"
             alt="{{ movie.title }}"
+          />
+          {% else %}
+          <img
+            class="card-img-top"
+            src="https://via.placeholder.com/300x300?text=No+Image"
+            alt="No image available"
           />
           {% endif %}
         </div>
@@ -161,73 +147,58 @@
             {{ movie.vote_count }} votes
           </p>
           <p>
-            <strong>Genres:</strong>
-            {% for genre in movie.genres %} {{ genre.name }}{% if not
-            loop.last %}, {% endif %} {% endfor %}
+            <strong>Genres:</strong> {% for genre in movie.genres %}{{
+            genre.name }}{% if not loop.last %}, {% endif %}{% endfor
+            %}
           </p>
           <h3>Overview</h3>
           <p>{{ movie.overview }}</p>
         </div>
       </div>
 
-      <!-- External Links Section -->
       <h3>External Links</h3>
       <div class="external-links">
-        {% if movie.external_ids.imdb_id %}
-        <a
-          href="https://www.imdb.com/title/{{ movie.external_ids.imdb_id }}"
-          class="link imdb"
-        >
-          <i class="fab fa-imdb"></i> IMDb
-        </a>
-        {% endif %} {% if movie.external_ids.facebook_id %}
-        <a
-          href="https://www.facebook.com/{{ movie.external_ids.facebook_id }}"
-          class="link facebook"
-        >
-          <i class="fab fa-facebook-square"></i> Facebook
-        </a>
-        {% endif %} {% if movie.external_ids.instagram_id %}
-        <a
-          href="https://www.instagram.com/{{ movie.external_ids.instagram_id }}"
-          class="link instagram"
-        >
-          <i class="fab fa-instagram"></i> Instagram
-        </a>
-        {% endif %} {% if movie.external_ids.twitter_id %}
-        <a
-          href="https://twitter.com/{{ movie.external_ids.twitter_id }}"
-          class="link twitter"
-        >
-          <i class="fab fa-twitter"></i> Twitter
-        </a>
-        {% endif %} {% if movie.homepage %}
-        <a
-          href="{{ movie.homepage }}"
-          class="link website"
-          target="_blank"
-        >
-          <i class="fas fa-globe"></i> Website
-        </a>
-        {% endif %}
+        <!-- External links with icons -->
       </div>
 
       <h3>Cast</h3>
       <div class="row">
         {% for cast_member in movie.credits.cast %}
-        <div class="col-lg-3 col-md-4 col-sm-6 text-center mb-3">
-          <img
-            src="https://image.tmdb.org/t/p/w200{{ cast_member.profile_path }}"
-            class="img-fluid rounded-circle mb-2"
-            alt="{{ cast_member.name }}"
-          />
-          <p>{{ cast_member.name }} as {{ cast_member.character }}</p>
-          <!-- Assuming 'movie' is the context variable containing movie details including movie.id -->
-          <a
-            href="{{ url_for('actor_details', actor_id=cast_member.id, movie_id=movie.id) }}"
-            class="btn btn-info"
-            >View Actor</a
-          >
+        <div class="col-lg-2 col-md-3 col-sm-4 text-center mb-3">
+          <div class="actor-member-info">
+            {% if cast_member.profile_path %}
+            <img
+              src="https://image.tmdb.org/t/p/w200{{ cast_member.profile_path }}"
+              class="img-fluid rounded-circle"
+              alt="{{ cast_member.name }}"
+            />
+            {% else %}
+            <img
+              src="https://via.placeholder.com/200?text=No+Image"
+              class="img-fluid rounded-circle"
+              alt="No profile image"
+            />
+            {% endif %}
+            <div class="actor-details">
+              <p>
+                <strong>Actor:</strong>
+                <a
+                  href="{{ url_for('actor_details', actor_id=cast_member.id, movie_id=movie.id) }}"
+                  >{{ cast_member.name }}</a
+                >
+              </p>
+              <p>
+                <strong>Character:</strong> {{ cast_member.character
+                }}
+              </p>
+              <!-- Separate button to view actor details -->
+              <a
+                href="{{ url_for('actor_details', actor_id=cast_member.id, movie_id=movie.id) }}"
+                class="btn btn-info mt-2"
+                >View Actor</a
+              >
+            </div>
+          </div>
         </div>
         {% endfor %}
       </div>
@@ -235,26 +206,36 @@
       <h3>Crew</h3>
       <div class="row">
         {% for crew_member in movie.credits.crew %}
-        <div class="col-lg-4 col-md-6 mb-3">
+        <div class="col-lg-2 col-md-3 col-sm-4 text-center mb-3">
           <div class="crew-member-info">
+            {% if crew_member.profile_path %}
             <img
               src="https://image.tmdb.org/t/p/w200{{ crew_member.profile_path }}"
               class="img-fluid rounded-circle"
               alt="{{ crew_member.name }}"
             />
+            {% else %}
+            <img
+              src="https://via.placeholder.com/200?text=No+Image"
+              class="img-fluid rounded-circle"
+              alt="No profile image"
+            />
+            {% endif %}
             <div class="crew-details">
               <p>
-                <strong>{{ crew_member.job }}:</strong> {{
-                crew_member.name }}
+                <strong>{{ crew_member.job }}:</strong>
+                <a
+                  href="{{ url_for('crew_details', crew_id=crew_member.id, movie_id=movie.id) }}"
+                  >{{ crew_member.name }}</a
+                >
               </p>
               <p>{{ crew_member.department }}</p>
-              {#
+              <!-- Optionally, add a button if needed -->
               <a
-                href="{{ url_for('crew_details', crew_id=crew_member.id) }}"
-                class="btn btn-info"
-                >View Crew</a
+                href="{{ url_for('crew_details', crew_id=crew_member.id, movie_id=movie.id) }}"
+                class="btn btn-info mt-2"
+                >View Details</a
               >
-              #}
             </div>
           </div>
         </div>
